@@ -31,7 +31,7 @@ const page = () => {
       <h1 className="font-semibold ">Add Todo</h1>
 
       <form
-        className="flex flex-col w-full flex-1 gap-3 px-5"
+        className="flex flex-col w-full flex-1 gap-3 px-5 sm:w-1/2"
         action={addTodo}
       >
         <div className="flex flex-col gap-1">
