@@ -4,17 +4,9 @@ import { TodoType } from "@/app/types";
 import DeleteTodoButton from "./DeleteTodoButton";
 
 async function page({ params }: { params: { id: string } }) {
-  let todo: TodoType | null;
-  try {
-    todo = await prisma.todo.findFirst({
-      where: { id: params.id },
-    });
-    if (todo === null) {
-      throw new Error("Task not found !");
-    }
-  } catch (err) {
-    throw new Error("Task not found");
-  }
+  const todo: TodoType | null = await prisma.todo.findFirst({
+    where: { id: params.id },
+  });
 
   // binds the arguments in server actions
   const updateTodoWithId = updateTodo.bind(null, params.id);

@@ -2,6 +2,7 @@
 import ButtonComponent from "./ButtonComponent";
 import { TodoType } from "@/app/types";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 const ToggleComplete = ({ id, description, title, completed }: TodoType) => {
   const router = useRouter();
@@ -9,10 +10,11 @@ const ToggleComplete = ({ id, description, title, completed }: TodoType) => {
     try {
       const res = await fetch(`/api/todo/${id}`, {
         method: "PUT",
-        body: JSON.stringify({ title, description, completed }),
+        body: JSON.stringify({ title, description, completed: !completed }),
       });
       const todo = await res.json();
       router.push("/");
+      toast.success("Task updated successfully");
       router.refresh();
     } catch (err) {
       if (typeof err === "string") {
