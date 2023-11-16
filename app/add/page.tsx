@@ -2,10 +2,15 @@ import React from "react";
 import ButtonComponent from "../../components/ButtonComponent";
 import { redirect } from "next/navigation";
 import { todoSchema } from "../validationSchemas";
+import { auth } from "../api/auth/[...nextauth]/route";
 
 async function addTodo(formData: FormData) {
   "use server";
-
+  const session = await auth();
+  // console.log(session);
+  if (!session) {
+    throw new Error("Not login");
+  }
   const description = formData.get("description")?.valueOf();
   const title = formData.get("title")?.valueOf();
 
@@ -16,10 +21,16 @@ async function addTodo(formData: FormData) {
   if (!validation.success) {
     throw new Error(validation.error.message);
   }
+
   const todo = await prisma.todo.create({
     data: {
       title,
       description,
+      User: {
+        connect: {
+          email: session.user.email,
+        },
+      },
     },
   });
   // toast.success("Task added successfully");

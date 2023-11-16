@@ -1,6 +1,7 @@
 import type { NextAuthOptions } from "next-auth";
 import GitHubProvider from "next-auth/providers/github";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
 
 export const options: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET as string,
@@ -12,10 +13,10 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: "Credentials",
       credentials: {
-        username: {
-          label: "username",
-          placeholder: "your cool username",
-          type: "text",
+        email: {
+          label: "email",
+          placeholder: "Enter your email",
+          type: "email",
         },
         password: {
           label: "password",
@@ -24,16 +25,50 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials) {
-        const user = { id: "42", name: "Dave", password: "nextauth" };
-        if (
-          credentials?.username === user.name &&
-          credentials?.password === user.password
-        ) {
-          return user;
-        } else {
+        // check the user is exist
+        const user = await prisma.user.findUnique({
+          where: { email: credentials?.email },
+        });
+        if (!user) {
           return null;
         }
+        if (credentials?.password && user.password) {
+          const isValid = await bcrypt.compare(
+            credentials?.password,
+            user.password
+          );
+          if (isValid) {
+            return user;
+          }
+          return null;
+        }
+        return user;
       },
     }),
   ],
+  callbacks: {
+    async signIn({ user, account, profile, email, credentials }) {
+      // console.log(user); yes we are getting the user details after github login
+      const isExists = await prisma.user.findUnique({
+        where: {
+          email: user.email as string,
+        },
+      });
+      if (!isExists) {
+        // create new user
+
+        const create = await prisma.user.create({
+          data: {
+            name: user.name as string,
+            email: user.email as string,
+          },
+        });
+      }
+
+      return true;
+    },
+    async redirect({ url, baseUrl }) {
+      return baseUrl;
+    },
+  },
 };

@@ -6,6 +6,8 @@ import { Trash2, FileEdit } from "lucide-react";
 import Link from "next/link";
 import DeleteTodoButton from "@/app/todo/[id]/DeleteTodoButton";
 import ToggleComplete from "./ToggleComplete";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 type propTypes = {
   todo: TodoType;
@@ -13,7 +15,9 @@ type propTypes = {
 
 const Todo = ({ todo }: propTypes) => {
   const { id, description, title, completed } = todo;
+  const { data: session } = useSession(); // we want user
 
+  // console.log(session);
   return (
     <>
       <div className="flex flex-col px-4 py-4 justify-between shadow-xl rounded-xl">

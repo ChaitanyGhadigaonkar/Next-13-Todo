@@ -1,10 +1,14 @@
 "use client";
 import Link from "next/link";
 import React from "react";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
+import { signOut, useSession } from "next-auth/react";
+import ButtonComponent from "./ButtonComponent";
+import { LogOut } from "lucide-react";
 
 const Header = () => {
   const currentPath = usePathname();
+  const { data: session } = useSession();
   return (
     <div className="flex justify-between py-3">
       <Link
@@ -30,6 +34,28 @@ const Header = () => {
         >
           Add Todo
         </Link>
+        {!session ? (
+          <Link
+            className={`${
+              currentPath === "/add" ? "text-zinc-950" : ""
+            } text-zinc-600  hover:text-zinc-950 list-none cursor-pointer font-semibold transition-colors duration-300`}
+            href={"/api/auth/signin"}
+          >
+            Login
+          </Link>
+        ) : (
+          <ButtonComponent
+            variant={"default"}
+            className="flex items-center gap-2 py-0 px-3 border-none"
+            onClick={() => signOut()}
+          >
+            <LogOut
+              width={15}
+              height={15}
+            />
+            Logout
+          </ButtonComponent>
+        )}
       </div>
     </div>
   );
