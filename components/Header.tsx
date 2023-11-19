@@ -5,6 +5,7 @@ import { redirect, usePathname } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import ButtonComponent from "./ButtonComponent";
 import { LogOut } from "lucide-react";
+import ToggleThemeButton from "./ToggleThemeButton";
 
 const Header = () => {
   const currentPath = usePathname();
@@ -17,19 +18,20 @@ const Header = () => {
       >
         TODO
       </Link>
-      <div className="links flex gap-6 px-2">
+      <div className="links flex items-center gap-6 px-2">
+        <ToggleThemeButton />
         <Link
           className={`${
-            currentPath === "/" ? "text-zinc-950" : ""
-          } text-zinc-600  hover:text-zinc-950 list-none cursor-pointer font-semibold transition-colors duration-300`}
+            currentPath === "/" ? "text-zinc-950 dark:text-[#F7EFE5]" : ""
+          } text-zinc-600  hover:text-zinc-950 dark:hover:text-[#FFFBF5] list-none cursor-pointer font-semibold transition-colors duration-300`}
           href={"/"}
         >
           Home
         </Link>
         <Link
           className={`${
-            currentPath === "/add" ? "text-zinc-950" : ""
-          } text-zinc-600  hover:text-zinc-950 list-none cursor-pointer font-semibold transition-colors duration-300`}
+            currentPath === "/add" ? "text-zinc-950 dark:text-[#F7EFE5]" : ""
+          } text-zinc-600  hover:text-zinc-950 dark:hover:text-[#FFFBF5] list-none cursor-pointer font-semibold transition-colors duration-300`}
           href={"/add"}
         >
           Add Todo
@@ -37,8 +39,8 @@ const Header = () => {
         {!session ? (
           <Link
             className={`${
-              currentPath === "/add" ? "text-zinc-950" : ""
-            } text-zinc-600  hover:text-zinc-950 list-none cursor-pointer font-semibold transition-colors duration-300`}
+              currentPath === "/add" ? "text-zinc-950 dark:text-[#F7EFE5]" : ""
+            } text-zinc-600  hover:text-zinc-950 dark:hover:text-[#FFFBF5] list-none cursor-pointer font-semibold transition-colors duration-300`}
             href={"/api/auth/signin"}
           >
             Login
@@ -46,7 +48,7 @@ const Header = () => {
         ) : (
           <ButtonComponent
             variant={"default"}
-            className="flex items-center gap-2 py-0 px-3 border-none"
+            className="flex items-center gap-2 py-0 px-3 border-none text-zinc-600  dark:hover:text-[#FFFBF5] "
             onClick={() => signOut()}
           >
             <LogOut

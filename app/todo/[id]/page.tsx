@@ -29,7 +29,7 @@ async function page({ params }: { params: { id: string } }) {
           <input
             type="text"
             name="title"
-            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600"
+            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600 dark:text-zinc-900"
             placeholder="Enter Title"
             defaultValue={todo?.title}
           />
@@ -43,7 +43,7 @@ async function page({ params }: { params: { id: string } }) {
             Description
           </label>
           <textarea
-            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600"
+            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600 dark:text-zinc-900"
             placeholder="Description of the task"
             name="description"
             rows={4}

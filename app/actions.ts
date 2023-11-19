@@ -3,8 +3,14 @@ import bcrypt from "bcrypt";
 import { redirect } from "next/navigation";
 import { todoSchema } from "./validationSchemas";
 import { MouseEventHandler } from "react";
+import { auth } from "./api/auth/[...nextauth]/route";
+import { sessionType } from "./types";
 
 export async function updateTodo(id: string, formData: FormData) {
+  const session = await auth();
+  if (!session) {
+    throw new Error("Not authorized");
+  }
   const title = formData.get("title")?.valueOf();
   const description = formData.get("description")?.valueOf();
   const completed = formData.get("completed")?.valueOf();
@@ -14,7 +20,15 @@ export async function updateTodo(id: string, formData: FormData) {
     description,
     completed: completed === "on" ? true : false,
   });
-
+  const todo = await prisma.todo.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!todo) throw new Error("Task does not exists");
+  if (todo.email !== (session as sessionType).user.email) {
+    throw new Error("Not authorized to update");
+  }
   const updatedTodo = await prisma.todo.update({
     where: { id },
     data: {
@@ -30,6 +44,19 @@ export async function deleteTodo(
   id: string,
   mouseEvent: MouseEventHandler<HTMLButtonElement>
 ) {
+  const session = await auth();
+  if (!session) {
+    throw new Error("Not authorized");
+  }
+  const todo = await prisma.todo.findUnique({
+    where: {
+      id,
+    },
+  });
+  if (!todo) throw new Error("Task does not exists");
+  if (todo.email !== (session as sessionType).user.email) {
+    throw new Error("Not authorized to delete");
+  }
   const deletedTodo = await prisma.todo.delete({ where: { id: id } });
   redirect("/");
 }

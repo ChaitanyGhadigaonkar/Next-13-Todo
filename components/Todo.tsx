@@ -15,14 +15,16 @@ type propTypes = {
 
 const Todo = ({ todo }: propTypes) => {
   const { id, description, title, completed } = todo;
-  const { data: session } = useSession(); // we want user
+  const { data: session } = useSession();
 
   // console.log(session);
   return (
     <>
-      <div className="flex flex-col px-4 py-4 justify-between shadow-xl rounded-xl">
+      <div className="flex flex-col px-4 py-4 mx-2 justify-between shadow-xl rounded-xl dark:bg-[#183D3D]">
         <p className="font-semibold text-sm">{title}</p>
-        <p className="text-zinc-500 text-sm py-2">{description}</p>
+        <p className="text-zinc-500 text-sm py-2 dark:text-[#F7EFE5]">
+          {description}
+        </p>
         <div className="flex justify-between items-center">
           <ToggleComplete
             id={id}
@@ -34,7 +36,7 @@ const Todo = ({ todo }: propTypes) => {
           <div className="icons flex justify-between">
             <ButtonComponent variant={"icon"}>
               <Link href={`/todo/${id}`}>
-                <FileEdit />
+                <FileEdit className="dark:text-white" />
               </Link>
             </ButtonComponent>
             <DeleteTodoButton id={id} />

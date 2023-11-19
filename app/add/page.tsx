@@ -3,6 +3,7 @@ import ButtonComponent from "../../components/ButtonComponent";
 import { redirect } from "next/navigation";
 import { todoSchema } from "../validationSchemas";
 import { auth } from "../api/auth/[...nextauth]/route";
+import { sessionType } from "../types";
 
 async function addTodo(formData: FormData) {
   "use server";
@@ -28,7 +29,7 @@ async function addTodo(formData: FormData) {
       description,
       User: {
         connect: {
-          email: session.user.email,
+          email: (session as sessionType).user.email,
         },
       },
     },
@@ -55,7 +56,7 @@ const page = () => {
           <input
             type="text"
             name="title"
-            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600"
+            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600 dark:text-zinc-900"
             placeholder="Enter Title"
           />
         </div>
@@ -68,7 +69,7 @@ const page = () => {
             Description
           </label>
           <textarea
-            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600"
+            className="outline-none px-2 py-2 text-sm rounded-lg border-[1px] active:border-slate-600 focus:border-slate-600 dark:text-zinc-900"
             placeholder="Description of the task"
             name="description"
             rows={4}

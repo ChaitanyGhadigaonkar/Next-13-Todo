@@ -20,7 +20,7 @@ const DeleteTodoButton = ({ id }: { id: string | undefined }) => {
       variant={"icon"}
       onClick={deleteTodo}
     >
-      <Trash2 />
+      <Trash2 className="dark:text-white" />
     </ButtonComponent>
   );
 };

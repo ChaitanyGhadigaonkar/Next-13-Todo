@@ -1,5 +1,5 @@
 import Todo from "../components/Todo";
-import { TodoType } from "./types";
+import { TodoType, sessionType } from "./types";
 import prisma from "./lib/prisma";
 import { redirect } from "next/navigation";
 import { auth } from "./api/auth/[...nextauth]/route";
@@ -13,7 +13,7 @@ export default async function Home() {
   }
   const todos: TodoType[] = await prisma.todo.findMany({
     where: {
-      email: session.user.email, //TODO: Defining the type of the session object in next-auth.d.ts
+      email: (session as sessionType).user.email,
     },
   });
 

@@ -4,3 +4,11 @@ export type TodoType = {
   description: string;
   completed: boolean;
 };
+export type sessionType = {
+  user: {
+    name: string;
+    email: string;
+    id: string;
+    image: string;
+  };
+};
