@@ -51,9 +51,6 @@ export async function deleteTodo(
     },
   });
   if (!todo) throw new Error("Task does not exists");
-  if (todo.email !== (session as sessionType).user.email) {
-    throw new Error("Not authorized to delete");
-  }
   const deletedTodo = await prisma.todo.delete({ where: { id: id } });
   redirect("/");
 }
