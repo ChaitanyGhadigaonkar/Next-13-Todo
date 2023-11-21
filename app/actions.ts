@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { todoSchema } from "./validationSchemas";
 import { MouseEventHandler } from "react";
 import { auth } from "./api/auth/[...nextauth]/route";
-import { sessionType } from "./types";
+import { TodoType, sessionType } from "./types";
 
 export async function updateTodo(id: string, formData: FormData) {
   const session = await auth();
@@ -26,9 +26,6 @@ export async function updateTodo(id: string, formData: FormData) {
     },
   });
   if (!todo) throw new Error("Task does not exists");
-  if (todo.email !== (session as sessionType).user.email) {
-    throw new Error("Not authorized to update");
-  }
   const updatedTodo = await prisma.todo.update({
     where: { id },
     data: {
