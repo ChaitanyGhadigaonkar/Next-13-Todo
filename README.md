@@ -13,19 +13,17 @@ Built with **Next.js** and **Prisma**.
 
 ### Home
 
-![Home page](./public/home_page.png)
+![Home Page](https://github.com/ChaitanyGhadigaonkar/Next-13-Todo/assets/110347815/92d9e2f9-a716-420c-a854-3411bb6f101c)
+
 
 ### Add Todo Page
 
-![Add Todo page](./public/home_posts.png)
+![Add Todo Page](https://github.com/ChaitanyGhadigaonkar/Next-13-Todo/assets/110347815/70cfbcee-528c-4ca5-bbba-da6df510f5d6)
 
-### Register Page
 
-![Register page](./public/home_read.png)
+### Light Theme
 
-### Dark Theme
-
-![Dark Theme](./public/home_read.png)
+![Light Mode](https://github.com/ChaitanyGhadigaonkar/Next-13-Todo/assets/110347815/1da16f31-2577-4c02-9551-1163eab1c1c4)
 
 
 ## Important
